@@ -1,0 +1,15 @@
+{
+  "name": "discord-gameserverstatus",
+  "version": "1.0.0",
+  "description": "A script to show game server status in discord",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ."
+  },
+  "author": "PepperKick",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^11.4.2",
+    "gamedig": "^1.0.46"
+  }
+}
