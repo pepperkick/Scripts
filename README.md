@@ -11,7 +11,7 @@ Raw
     "token": "", 
     "guild": "",
     "channel": "",
-    "interval": 300000,
+    "interval": 30000,
     "url": "",
     "servers": [
         {
@@ -31,7 +31,7 @@ Detailed
     "token": "",                        // Bot token used to login
     "guild": "",                        // Guild ID where the messages are
     "channel": "",                      // Channel ID where the messages are
-    "interval": 300000,                  // Interval of server query in ms
+    "interval": 30000,                  // Interval of server query in ms
     "url": "",                          // URL which is opened when user clicks on title (Ex: http://google.com) NOTE: Must contain `http://` or `https://`
     "servers": [                        // Collection of game servers
         {
