@@ -7,7 +7,7 @@ A simple script to show game server status in discord.
 Raw
 ```
 {
-    "prefix": "!",                 
+    "prefix": "!",
     "token": "", 
     "guild": "",
     "channel": "",
@@ -18,7 +18,7 @@ Raw
             "id": "",   
             "ip": "",   
             "port": 0,
-            "type": "tf2"        
+            "type": "tf2"
         }
     ]
 }
@@ -31,7 +31,7 @@ Detailed
     "token": "",                        // Bot token used to login
     "guild": "",                        // Guild ID where the messages are
     "channel": "",                      // Channel ID where the messages are
-    "interval": 300000                  // Interval of server query in ms
+    "interval": 300000,                  // Interval of server query in ms
     "url": "",                          // URL which is opened when user clicks on title (Ex: http://google.com) NOTE: Must contain `http://` or `https://`
     "servers": [                        // Collection of game servers
         {
