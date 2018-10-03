@@ -2,7 +2,7 @@ A simple script to delete all user's messages in a DM Channel or Server Channel.
 
 ## Install
 
-Replace <TOKEN> to your discord token in bottom of index.js.
+Replace `<TOKEN>` to your discord token in bottom of index.js.
 
 ```
 npm install
