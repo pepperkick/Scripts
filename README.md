@@ -4,6 +4,27 @@ A simple script to show game server status in discord.
 
 `config.json` file is required. Create it with following content if missing.
 
+Raw
+```
+{
+    "prefix": "!",                 
+    "token": "", 
+    "guild": "",
+    "channel": "",
+    "interval": 300000,
+    "url": "",
+    "servers": [
+        {
+            "id": "",   
+            "ip": "",   
+            "port": 0,
+            "type": "tf2"        
+        }
+    ]
+}
+```
+
+Detailed
 ```
 {
     "prefix": "!",                      // Prefix for bot commands (Ex: !status)
