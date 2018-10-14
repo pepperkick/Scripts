@@ -90,7 +90,7 @@ function getEmbed(info, server) {
             color: 0xf44336,
             title: server.name,
             url: config.url,
-            description: info.description || "Currently Offline!",
+            description: info.offlineDescription || "Currently Offline!",
             timestamp: new Date(),
             footer: {
                 icon_url: null,
