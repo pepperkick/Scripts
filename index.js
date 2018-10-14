@@ -1,15 +1,22 @@
 const Discord = require('discord.js');
 const GameDig = require('gamedig');
 
-const config = require('./config.json');
-
-const client = new Discord.Client();
 const log = console.log;
 
-(async () => { 
+let config, client, channel, timers = {};
+
+async function init() { 
+    client = new Discord.Client();
+    config = require('./config.json');
+
+    for (let i in timers) {
+        clearInterval(timers[i]);
+    }
+
     await client.login(config.token);
+    client.on('message', onDiscordMessage);
     
-    const channel = await client.guilds.get(config.guild).channels.get(config.channel);
+    channel = await client.guilds.get(config.guild).channels.get(config.channel);
     const servers = config.servers;
 
     if (!channel) {
@@ -23,27 +30,43 @@ const log = console.log;
 
         handleMessage(msg, server);
     });
-})();
 
-client.on('message', async (message) => {
+    log('Bot started');
+}
+
+async function onDiscordMessage(message) {
     if (message.content === `${config.prefix}status`) {
         const reply = await message.channel.send('', { embed: {
-            color: 3447003,
+            color: 0x03A9F4,
             description: `Copy this message's ID to your config.json file under servers`
         }})
 
         reply.edit('', { embed: {
-            color: 3447003,
+            color: 0x03A9F4,
             description: `Copy this message's ID to your config.json file under servers: ${reply.id}`
         }});
+    } else if (message.content === `${config.prefix}restart`) {
+        const reply = await message.channel.send('', { embed: {
+            color: 0x03A9F4,
+            description: `Restarting the bot...`
+        }})
+
+        await client.destroy();
+        await init();
+
+        const msg = await channel.fetchMessage(reply.id);
+        msg.edit('', { embed: {
+            color: 0x4CAF50,
+            description: `Successfully restarted the bot!`
+        }})
     }
-});
+}
 
 function handleMessage(message, info) {
-    setInterval(async () => {
+    timers[message.id] = setInterval(async () => {
         try {
             const server = await queryServer(info.ip, info.port, info.type);
-            const embed = getEmbed(server);
+            const embed = getEmbed(info, server);
 
             message.edit("", { embed });
         } catch (err) {
@@ -54,52 +77,70 @@ function handleMessage(message, info) {
     }, config.interval);
 }
 
-function getEmbed(server) {
+function getEmbed(info, server) {
     const players = getPlayerDetails(server);
     const ip = `${server.query.address}:${server.query.port}`;
     const joinLink = ("steam://connect/" + ip);
-    const embed = {
-        color: 3447003,
-        title: server.name,
-        url: config.url,
-        description: "Server Info",
-        fields: [
-            {
-                name: 'Game',
-                value: server.raw.game,
-                inline: true
-            },
-            {
-                name: 'Players',
-                value: server.players.length + " / " + server.maxplayers,
-                inline: true
-            },
-            {
-                name: 'Map',
-                value: server.map,
-                inline: true
-            },
-            {
-                name: 'IP',
-                value: '[' + ip + '](' + joinLink + ')',
-                inline: false
-            },
-            {
-                name: "Player",
-                value: players.names,
-                inline: true
-            },
-            {
-                name: "Score",
-                value: players.scores,
-                inline: true
+    const isOffline = info.offline;
+
+    let embed;
+
+    if (isOffline) {
+        embed = {
+            color: 0xf44336,
+            title: server.name,
+            url: config.url,
+            description: info.description || "Currently Offline!",
+            timestamp: new Date(),
+            footer: {
+                icon_url: null,
+                text: 'ServerStatus'
             }
-        ],
-        timestamp: new Date(),
-        footer: {
-            icon_url: null,
-            text: 'ServerStatus'
         }
+    } else {
+        embed = {
+            color: 0x03A9F4,
+            title: server.name,
+            url: config.url,
+            description: "Server Info",
+            fields: [
+                {
+                    name: 'Game',
+                    value: server.raw.game,
+                    inline: true
+                },
+                {
+                    name: 'Players',
+                    value: server.players.length + " / " + server.maxplayers,
+                    inline: true
+                },
+                {
+                    name: 'Map',
+                    value: server.map,
+                    inline: true
+                },
+                {
+                    name: 'IP',
+                    value: '[' + ip + '](' + joinLink + ')',
+                    inline: false
+                },
+                {
+                    name: "Player",
+                    value: players.names,
+                    inline: true
+                },
+                {
+                    name: "Score",
+                    value: players.scores,
+                    inline: true
+                }
+            ],
+            timestamp: new Date(),
+            footer: {
+                icon_url: null,
+                text: 'ServerStatus'
+            }
+        } 
     }
 
     return embed;
@@ -113,7 +154,9 @@ function getPlayerDetails(server) {
 
     if (server.players.length != 0) {
         server.players = server.players.sort(sortBy("score"));
-        for (var i in server.players) {
+        for (let i in server.players) {
+            if (!server.players[i].name || !server.players[i].score) continue;
+
             players.names = players.names + server.players[i].name + "\n";
             players.scores = players.scores + server.players[i].score + "\n";
         }
@@ -157,3 +200,5 @@ function Shutdown(info) {
 
     process.exit();
 }
+
+init();
