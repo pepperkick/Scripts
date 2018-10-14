@@ -18,7 +18,9 @@ Raw
             "id": "",   
             "ip": "",   
             "port": 0,
-            "type": "tf2"
+            "type": "tf2",
+            "offline": "false",
+            "offlineDescription": "Currently offline!"
         }
     ]
 }
@@ -38,7 +40,10 @@ Detailed
             "id": "",                   // ID of message
             "ip": "",                   // IP of game server to monitor
             "port": 0,                  // Port of game server to monitor
-            "type": "tf2"               // Type of game server to monitor
+            "type": "tf2",              // Type of game server to monitor
+            "offline": "false",         // Is the server currently down?
+            "offlineDescription": "Currently offline!"  
+                                        // Shows this description in message if the server is offline
         }
     ]
 }
