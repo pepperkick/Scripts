@@ -4,13 +4,34 @@ A simple script to show game server status in discord.
 
 `config.json` file is required. Create it with following content if missing.
 
+Raw
+```
+{
+    "prefix": "!",
+    "token": "", 
+    "guild": "",
+    "channel": "",
+    "interval": 30000,
+    "url": "",
+    "servers": [
+        {
+            "id": "",   
+            "ip": "",   
+            "port": 0,
+            "type": "tf2"
+        }
+    ]
+}
+```
+
+Detailed
 ```
 {
     "prefix": "!",                      // Prefix for bot commands (Ex: !status)
     "token": "",                        // Bot token used to login
     "guild": "",                        // Guild ID where the messages are
     "channel": "",                      // Channel ID where the messages are
-    "interval": 300000                  // Interval of server query in ms
+    "interval": 30000,                  // Interval of server query in ms
     "url": "",                          // URL which is opened when user clicks on title (Ex: http://google.com) NOTE: Must contain `http://` or `https://`
     "servers": [                        // Collection of game servers
         {
