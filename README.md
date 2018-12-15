@@ -1,8 +1,19 @@
-# Scripts
+A simple script to backup all user's messages in a DM Channel or Server Channel.
 
-Collection of scripts that I have worked on
+## Install
 
-## List
+Replace <TOKEN> to your discord token in bottom of index.js.
 
-- discord-selfbot-deletemsgs : Discord SelfBot script to automatically delete user's messages in a DM Chat or Server Chat.
-- discord-bot-gameserverstatus : Discord Bot script to monitor game servers.
+```
+npm install
+npm start
+```
+
+## Usage
+
+You can either type `!ex` in discord chat or send `ex <channel id>` in the script
+
+## Commands
+
+- ex : Backups messages in a channel
+- exit : Shutdowns the script
